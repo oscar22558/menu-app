@@ -9,9 +9,9 @@ services:
       POSTGRES_PASSWORD: menuapp
       PGDATA: /data/postgres
     volumes:
-      - db-test:/data/postgres
+      - db-dev:/data/postgres
     ports:
-      - 5432:5432
+      - 5436:5432
     networks:
       - app-network
   dbadmin:
