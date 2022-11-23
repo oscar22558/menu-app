@@ -1,10 +1,9 @@
 package com.oscar.menuapp.features.models.menu;
 
 import lombok.Value;
-import org.springframework.cglib.core.Local;
 
 @Value
-public class MenuName {
+public class MenuComponentName {
     String name;
     Locale locale;
 }

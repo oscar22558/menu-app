@@ -5,8 +5,8 @@ import lombok.Value;
 import java.util.List;
 
 @Value
-public class Menu implements MenuComponent {
+public class Menu {
     Currency currency;
-    MenuName name;
+    MenuComponentName name;
     List<MenuComponent> menuComponents;
 }
