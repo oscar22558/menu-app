@@ -1,6 +1,11 @@
 package com.oscar.menuapp.features.models.menu;
 
-public class MenuItem{
+import lombok.EqualsAndHashCode;
+import lombok.Value;
+
+@Value
+@EqualsAndHashCode(callSuper = true)
+public class MenuItem extends MenuComponent{
     MenuComponentName name;
     ItemPrice price;
     Discount discount;
@@ -11,9 +16,8 @@ public class MenuItem{
         this.discount = new Discount(price, discountRate);
     }
 
-    public MenuItem(MenuComponentName name, ItemPrice price, Discount discount){
-        this.name = name;
-        this.price = price;
-        this.discount = discount;
+    @Override
+    public boolean isMenu() {
+        return false;
     }
 }

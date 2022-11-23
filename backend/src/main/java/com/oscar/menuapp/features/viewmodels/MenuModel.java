@@ -7,11 +7,23 @@ import java.util.List;
 
 @Value
 public class MenuModel {
+    String currency;
+    List<MenuComponentNameModel> names;
     List<MenuItemModel> items;
     List<MenuModel> subMenu;
 
+    public MenuModel(String currency, List<MenuComponentNameModel> names, List<MenuItemModel> items, List<MenuModel> subMenu) {
+        this.currency = currency;
+        this.names = names;
+        this.items = items;
+        this.subMenu = subMenu;
+    }
+
+    public MenuModel(String currency, List<MenuComponentNameModel> names) {
+        this(currency, names, new ArrayList<>(), new ArrayList<>());
+    }
+
     public MenuModel(){
-        items = new ArrayList<>();
-        subMenu = new ArrayList<>();
+        this("", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 }
