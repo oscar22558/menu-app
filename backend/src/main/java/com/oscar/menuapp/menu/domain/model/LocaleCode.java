@@ -1,5 +1,5 @@
 package com.oscar.menuapp.menu.domain.model;
 
-public enum LocalCode {
+public enum LocaleCode {
     en, zh
 }

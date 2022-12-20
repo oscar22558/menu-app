@@ -1,6 +1,7 @@
 package com.oscar.menuapp.menu.application;
 
 import com.oscar.menuapp.menu.application.viewmodel.MenuViewModel;
+import com.oscar.menuapp.menu.domain.model.Menu;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +15,8 @@ public class GetMenuService {
 
     public MenuViewModel execute(GetMenuRequest request){
         var menu =  menuRepo.findMenuById(request.getId());
-        return getMenuPresenter.responseMenuModel(menu);
+        if(menu.isNotMenu())
+            throw new IllegalArgumentException();
+        return getMenuPresenter.responseMenuModel((Menu) menu);
     }
 }

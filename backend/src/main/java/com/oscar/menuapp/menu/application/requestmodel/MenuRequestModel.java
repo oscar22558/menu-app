@@ -2,12 +2,18 @@ package com.oscar.menuapp.menu.application.requestmodel;
 
 import lombok.Value;
 
-import java.util.Collection;
+import java.util.List;
 
 @Value
 public class MenuRequestModel {
-    String localCode;
+    String localeCode;
     String title;
+    String subTitle;
+    String specialNote;
+    List<TimeslotRequestModel> availableTimeslots;
     String currencyCode;
-    Collection<MenuItemRequestModel> menuItems;
+    float price;
+    float discountedPrice;
+    List<MenuItemRequestModel> menuItems;
+
 }

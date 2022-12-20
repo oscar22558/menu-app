@@ -1,4 +1,4 @@
 package com.oscar.menuapp.common.exception;
 
-public class InvalidRepetitionDateRangeException extends RuntimeException {
+public class InvalidRepetitionDateRangeException extends AppException {
 }

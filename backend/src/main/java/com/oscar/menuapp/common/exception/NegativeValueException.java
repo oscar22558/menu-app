@@ -1,4 +1,4 @@
 package com.oscar.menuapp.common.exception;
 
-public class NegativeValueException extends RuntimeException{
+public class NegativeValueException extends AppException{
 }

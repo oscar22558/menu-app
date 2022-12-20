@@ -8,8 +8,12 @@ import java.util.List;
 @Value
 @EqualsAndHashCode(callSuper = true)
 public class Menu extends MenuComponent {
-    Currency currency;
-    Title title;
+    Locale locale;
+    TextBlock title;
+    TextBlock subTitle;
+    TextBlock specialNote;
+    Price price;
+    AvailableTime availableTime;
     List<MenuComponent> menuComponents;
 
     @Override

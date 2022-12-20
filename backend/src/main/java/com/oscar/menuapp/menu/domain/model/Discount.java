@@ -1,20 +1,18 @@
 package com.oscar.menuapp.menu.domain.model;
 
-import com.oscar.menuapp.menu.domain.exception.DiscountInvalidException;
+import com.oscar.menuapp.menu.domain.exception.DiscountValueOutOfRangeException;
 import lombok.Value;
 
 @Value
 public class Discount {
-    ItemPrice price;
-    float discount;
+    float value;
 
-    public Discount(ItemPrice price, float discount) {
-        if(discount > 1f || discount < 0) throw new DiscountInvalidException();
-        this.price = price;
-        this.discount = discount;
+    public Discount(float value) {
+        if(value > 1f || value < 0) throw new DiscountValueOutOfRangeException();
+        this.value = value;
     }
 
-    public float getDiscountedPrice(){
-        return price.getPrice()* discount;
+    public float offerDiscount(float basePrice){
+        return basePrice*value;
     }
 }

@@ -1,30 +1,32 @@
 package com.oscar.menuapp.menu.application.requestmodel;
 
+import com.oscar.menuapp.common.application.RequestModelMapper;
 import com.oscar.menuapp.menu.domain.model.*;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-
-public class MenuRequestModelMapper {
+public class MenuRequestModelMapper implements RequestModelMapper<MenuRequestModel, MenuComponent> {
     public MenuComponent mapFrom(MenuRequestModel requestModel){
-        var currencyCode = CurrencyCode.valueOf(requestModel.getCurrencyCode());
-        var currency = new Currency(currencyCode);
-
-        var localeCode = LocalCode.valueOf(requestModel.getLocalCode());
+        var localeCode = LocaleCode.valueOf(requestModel.getLocaleCode());
         var locale = new Locale(localeCode);
 
-        var title = new Title(requestModel.getTitle(), locale);
+        var title = new TextBlock(requestModel.getTitle());
+        var subTitle = new TextBlock(requestModel.getSubTitle());
+        var specialNote = new TextBlock(requestModel.getSpecialNote());
 
-        var items = new MenuItemRequestModelMapper(locale)
-                .mapFrom(requestModel.getMenuItems());
+        var currencyCode = CurrencyCode.valueOf(requestModel.getCurrencyCode());
+        var currency = new Currency(currencyCode);
+        var discount = new Discount(requestModel.getDiscountedPrice());
+        var price = new Price(requestModel.getPrice(), discount, currency);
 
-       return new Menu(currency, title, items);
-    }
-
-    public Collection<MenuComponent> mapFrom(Collection<MenuRequestModel> requestModels){
-        return requestModels
+        var timeslots = new TimeslotRequestModelMapper()
+                .mapFrom(requestModel.getAvailableTimeslots())
                 .stream()
-                .map(this::mapFrom)
-                .collect(Collectors.toList());
+                .toList();
+        var availableTime = new AvailableTime(timeslots);
+        var items = new MenuItemRequestModelMapper()
+                .mapFrom(requestModel.getMenuItems())
+                .stream()
+                .toList();
+
+       return new Menu(locale, title, subTitle, specialNote, price, availableTime, items);
     }
 }

@@ -5,6 +5,9 @@ import lombok.Value;
 @Value
 public class MenuItemRequestModel {
     String title;
+    String subTitle;
+    String specialNote;
+    String currencyCode;
     float price;
-    float discount;
+    float discountedPrice;
 }

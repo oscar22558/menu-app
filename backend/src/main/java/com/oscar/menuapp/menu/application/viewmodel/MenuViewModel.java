@@ -7,23 +7,14 @@ import java.util.List;
 
 @Value
 public class MenuViewModel {
-    String currency;
-    List<MenuComponentTitleViewModel> titles;
+    String localeCode;
+    String title;
+    String subTitle;
+    String specialNote;
+    String currencyCode;
+    float price;
+    float discountedPrice;
     List<MenuItemViewModel> items;
     List<MenuViewModel> subMenu;
-
-    public MenuViewModel(String currency, List<MenuComponentTitleViewModel> titles, List<MenuItemViewModel> items, List<MenuViewModel> subMenu) {
-        this.currency = currency;
-        this.titles = titles;
-        this.items = items;
-        this.subMenu = subMenu;
-    }
-
-    public MenuViewModel(String currency, List<MenuComponentTitleViewModel> titles) {
-        this(currency, titles, new ArrayList<>(), new ArrayList<>());
-    }
-
-    public MenuViewModel(){
-        this("", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-    }
+    List<TimeslotViewModel> availableTimeslots;
 }

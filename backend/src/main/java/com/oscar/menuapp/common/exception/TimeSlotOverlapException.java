@@ -1,4 +1,4 @@
 package com.oscar.menuapp.common.exception;
 
-public class TimeSlotOverlapException extends RuntimeException {
+public class TimeSlotOverlapException extends AppException {
 }

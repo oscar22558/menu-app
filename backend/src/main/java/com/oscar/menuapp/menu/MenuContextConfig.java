@@ -1,15 +1,16 @@
-package com.oscar.menuapp.menu.infrastructure;
+package com.oscar.menuapp.menu;
 
 import com.oscar.menuapp.menu.application.*;
 import com.oscar.menuapp.menu.infrastructure.repository.MenuJdbcPostgresRepo;
+import com.oscar.menuapp.menu.infrastructure.repository.MenuNoOperationRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MenuContextConfig {
     @Bean
-    public MenuRepo menuRepo(){
-        return new MenuJdbcPostgresRepo();
+    public MenuRepo menuRepo(MenuJdbcPostgresRepo menuRepo){
+        return menuRepo;
     }
 
     @Bean

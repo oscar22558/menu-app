@@ -1,35 +1,57 @@
 package com.oscar.menuapp.menu.application.viewmodel;
 
+import com.oscar.menuapp.common.application.ViewModelMapper;
+import com.oscar.menuapp.menu.domain.model.Menu;
 import com.oscar.menuapp.menu.domain.model.MenuComponent;
+import com.oscar.menuapp.menu.domain.model.MenuItem;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MenuViewModelMapper {
-    public MenuViewModel mapFrom(MenuComponent appModel){
+public class MenuViewModelMapper implements ViewModelMapper<Menu, MenuViewModel> {
+    @Override
+    public MenuViewModel mapFrom(Menu appModel){
         if(!appModel.isMenu())
             throw new IllegalArgumentException("MenuComponent should be a Menu.");
 
-        List<MenuComponentTitleViewModel> nameModels = new MenuComponentTitleViewModelMapper()
-                .mapFrom(appModel.getNames());
-        MenuViewModel menuViewModel = new MenuViewModel(
-                appModel.getCurrency().getCode().name(),
-                nameModels
+
+        var subMenus = new MenuViewModelMapper()
+                .mapFrom(appModel
+                        .getMenuComponents()
+                        .stream()
+                        .filter(MenuComponent::isMenu)
+                        .map(component -> (Menu) component)
+                        .toList()
+                )
+                .stream()
+                .toList();
+        var items = new MenuItemViewModelMapper()
+                .mapFrom(appModel
+                        .getMenuComponents()
+                        .stream()
+                        .filter(MenuComponent::isNotMenu)
+                        .map(menuComponent -> (MenuItem) menuComponent)
+                        .toList()
+                )
+                .stream()
+                .toList();
+        var timeslots = new TimeslotViewModelMapper()
+                .mapFrom(appModel.getAvailableTime().getTimeslots())
+                .stream()
+                .toList();
+
+        return new MenuViewModel(
+            appModel.getLocale().getCode().name(),
+            appModel.getTitle().getContent(),
+            appModel.getSubTitle().getContent(),
+            appModel.getSpecialNote().getContent(),
+            appModel.getPrice().getCurrency().getCode().name(),
+            appModel.getPrice().getBasePrice(),
+            appModel.getPrice().getDiscountedPrice(),
+            items,
+            subMenus,
+            timeslots
         );
-
-        appModel.getMenuComponents().forEach(component->{
-            if(component.isMenu()){
-                MenuViewModel subMenuViewModel = new MenuViewModelMapper().mapFrom(component);
-                menuViewModel.getSubMenu().add(subMenuViewModel);
-            }else {
-                MenuItemViewModel itemModel = new MenuItemViewModelMapper().mapFrom(component);
-                menuViewModel.getItems().add(itemModel);
-            }
-        });
-        return menuViewModel;
-    }
-
-    public List<MenuViewModel> mapFrom(List<MenuComponent> appModels){
-        return appModels.stream().map(this::mapFrom).collect(Collectors.toList());
     }
 }
